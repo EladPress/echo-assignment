@@ -1,0 +1,26 @@
+{
+  "@context": "https://openvex.dev/ns/v0.2.0",
+  "@id": "https://openvex.dev/docs/public/vex-2024-45491",
+  "author": "Elad Press",
+  "timestamp": "2024-01-01T00:00:00Z",
+  "version": 1,
+  "statements": [
+    {
+      "vulnerability": {
+        "@id": "https://www.cve.org/CVERecord?id=CVE-2024-45491",
+        "name": "CVE-2024-45491"
+      },
+      "products": [
+        {
+          "@id": "pkg:deb/debian/libexpat1@2.5.0-1"
+        },
+        {
+          "@id": "pkg:deb/debian/expat@2.5.0-1"
+        }
+      ],
+      "status": "fixed",
+      "justification": "Backported fix from Debian 2.5.0-1+deb12u2",
+      "impact_statement": "Backported fix from Debian 2.5.0-1+deb12u2. Patch CVE-2024-45491.patch applied to source before build."
+    }
+  ]
+}
