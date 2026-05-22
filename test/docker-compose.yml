@@ -1,0 +1,25 @@
+services:
+  nginx-original:
+    image: nginx:1.25-bookworm
+    networks:
+      - test-net
+
+  nginx-patched:
+    image: nginx-patched
+    networks:
+      - test-net
+
+  test-runner:
+    build: .
+    depends_on:
+      - nginx-original
+      - nginx-patched
+    networks:
+      - test-net
+    environment:
+      - ORIGINAL_HOST=nginx-original
+      - PATCHED_HOST=nginx-patched
+
+networks:
+  test-net:
+    driver: bridge
