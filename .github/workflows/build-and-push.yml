@@ -21,10 +21,23 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push
+      - name: Build and push Builder Image
         uses: docker/build-push-action@v6
         with:
           context: .
+          file: ./build/Dockerfile
+          platforms: linux/arm64
+          push: true
+          tags: eladpress/echo-assignment-builder:${{ github.ref_name }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build and push Patched Image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          build-args: |
+            BRANCH_NAME=${{ github.ref_name }}
           file: ./Dockerfile
           platforms: linux/arm64
           push: true

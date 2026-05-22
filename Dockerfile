@@ -1,42 +1,6 @@
-FROM debian:bookworm-slim as libfreetype6-patch 
+ARG BRANCH_NAME
 
-WORKDIR /tmp
-
-RUN echo "deb-src http://deb.debian.org/debian bookworm main" >> /etc/apt/sources.list
-RUN echo "deb-src http://security.debian.org bookworm-security main" >> /etc/apt/sources.list
-RUN apt-get update
-RUN apt-get install -y dpkg-dev devscripts
-
-RUN apt-get source libfreetype6=2.12.1+dfsg-5+deb12u4
-WORKDIR /tmp/freetype-2.12.1+dfsg
-RUN apt-get build-dep libfreetype6 -y
-RUN dpkg-buildpackage -us -uc -b
-
-WORKDIR /tmp
-
-###########################################
-FROM debian:bookworm-slim as expat-patch
-
-RUN apt-get update
-RUN apt-get install -y dpkg-dev devscripts
-
-WORKDIR /tmp/old
-RUN dget -u https://snapshot.debian.org/archive/debian/20221027T213940Z/pool/main/e/expat/expat_2.5.0-1.dsc
-
-WORKDIR /tmp/new
-RUN echo "deb-src http://deb.debian.org/debian bookworm main" >> /etc/apt/sources.list
-RUN apt-get update
-## apt-get has the patched version (2.5.0-1+deb12u2), so we can just get the source.
-RUN apt-get source libexpat1=2.5.0
-
-WORKDIR /tmp
-RUN cp new/expat-2.5.0/debian/patches/CVE-2024-45491.patch old/expat-2.5.0/debian/patches/
-RUN echo "CVE-2024-45491.patch" >> old/expat-2.5.0/debian/patches/series
-WORKDIR /tmp/old/expat-2.5.0
-RUN patch -p1 < debian/patches/CVE-2024-45491.patch
-RUN apt build-dep -y expat
-RUN dpkg-buildpackage -us -uc
-## Result: a libexpat1_2.5.0-1_arm64.deb file in /old
+FROM eladpress/echo-assignment-builder:${BRANCH_NAME} as builder
 
 ##########################################
 FROM nginx:1.25-bookworm as nginx
@@ -54,9 +18,9 @@ ENV NGINX_VERSION=1.25.5
 
 RUN apt-get update
 
-COPY --from=libfreetype6-patch /tmp/libfreetype6_2.12.1+dfsg-5+deb12u4_arm64.deb /tmp
-COPY --from=expat-patch /tmp/old/expat_2.5.0-1_arm64.deb /tmp
-COPY --from=expat-patch /tmp/old/libexpat1_2.5.0-1_arm64.deb /tmp
+COPY --from=builder /debs/libfreetype6_2.12.1+dfsg-5+deb12u4_arm64.deb /tmp
+COPY --from=builder /debs/expat_2.5.0-1_arm64.deb /tmp
+COPY --from=builder /debs/libexpat1_2.5.0-1_arm64.deb /tmp
 RUN dpkg -i /tmp/libfreetype6_2.12.1+dfsg-5+deb12u4_arm64.deb || true
 RUN dpkg -i /tmp/expat_2.5.0-1_arm64.deb || true
 RUN dpkg -i /tmp/libexpat1_2.5.0-1_arm64.deb || true
