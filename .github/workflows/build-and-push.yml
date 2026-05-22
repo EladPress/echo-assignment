@@ -33,6 +33,6 @@ jobs:
           file: ./Dockerfile
           platforms: linux/arm64
           push: true
-          tags: eladpress/echo-assignment:nginx-patched
+          tags: eladpress/echo-assignment-nginx-patched:${{ github.ref_name }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
