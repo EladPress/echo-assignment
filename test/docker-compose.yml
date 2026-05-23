@@ -5,7 +5,7 @@ services:
       - test-net
 
   nginx-patched:
-    image: eladpress/echo-assignment-nginx-patched:master
+    image: eladpress/echo-assignment-nginx-patched:${BRANCH_NAME:-master}
     networks:
       - test-net
 
