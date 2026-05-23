@@ -26,8 +26,13 @@ GitHub Actions already creates the images automatically, and are available for a
 2. eladpress/echo-assignment-nginx-patched:master
 
 A local option is of course available in the form of the 'build/build-final-image-locally.sh' file, which will create both builder and final image with the tag 'local-test'.
+Build the iamges locally by running:
+```
+cd build/
+source build-final-image-locally.sh
+```
 
-Run the patched nginx image by simply running: \
+Run the patched nginx image by simply running:
 ```
 source run-patched-image.sh
 ```
