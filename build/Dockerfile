@@ -13,7 +13,7 @@ WORKDIR /tmp/freetype-2.12.1+dfsg
 RUN apt-get build-dep libfreetype6 -y
 RUN dpkg-buildpackage -us -uc -b
 
-WORKDIR /tmp
+WORKDIR /tmp ##TODO: remove
 
 ###########################################
 FROM debian:bookworm-slim as expat-patch
