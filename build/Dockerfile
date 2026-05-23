@@ -13,8 +13,6 @@ WORKDIR /tmp/freetype-2.12.1+dfsg
 RUN apt-get build-dep libfreetype6 -y
 RUN dpkg-buildpackage -us -uc -b
 
-WORKDIR /tmp ##TODO: remove
-
 ###########################################
 FROM debian:bookworm-slim AS expat-patch
 
@@ -43,5 +41,4 @@ FROM debian:bookworm-slim AS collect-debs
 
 WORKDIR /debs
 COPY --from=libfreetype6-patch /tmp/libfreetype6_*.deb ./
-# COPY --from=expat-patch /tmp/old/expat_*.deb ./
 COPY --from=expat-patch /tmp/old/libexpat1_*.deb ./
