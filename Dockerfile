@@ -1,13 +1,13 @@
 ARG BRANCH_NAME=master
 
-FROM eladpress/echo-assignment-builder:${BRANCH_NAME} as builder
+FROM eladpress/echo-assignment-builder:${BRANCH_NAME} AS builder
 
 ##########################################
-FROM nginx:1.25-bookworm as nginx
+FROM nginx:1.25-bookworm AS nginx
 
 
 ##########################################
-FROM debian:bookworm-slim as final
+FROM debian:bookworm-slim AS final
 
 LABEL maintainer="NGINX Docker Maintainers <docker-maint@nginx.com>"
 

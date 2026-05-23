@@ -1,5 +1,5 @@
 ## This dockerfile creates our .debs
-FROM debian:bookworm-slim as libfreetype6-patch 
+FROM debian:bookworm-slim AS libfreetype6-patch 
 
 WORKDIR /tmp
 
@@ -16,7 +16,7 @@ RUN dpkg-buildpackage -us -uc -b
 WORKDIR /tmp ##TODO: remove
 
 ###########################################
-FROM debian:bookworm-slim as expat-patch
+FROM debian:bookworm-slim AS expat-patch
 
 RUN apt-get update
 RUN apt-get install -y dpkg-dev devscripts
@@ -39,7 +39,7 @@ RUN apt build-dep -y expat
 RUN dpkg-buildpackage -us -uc
 ## Result: a libexpat1_2.5.0-1_arm64.deb file in /old
 
-FROM debian:bookworm-slim as collect-debs
+FROM debian:bookworm-slim AS collect-debs
 
 WORKDIR /debs
 COPY --from=libfreetype6-patch /tmp/libfreetype6_*.deb ./
