@@ -31,11 +31,12 @@ RUN apt-get source libexpat1=2.5.0
 WORKDIR /tmp
 RUN cp new/expat-2.5.0/debian/patches/CVE-2024-45491.patch old/expat-2.5.0/debian/patches/
 RUN echo "CVE-2024-45491.patch" >> old/expat-2.5.0/debian/patches/series
+
 WORKDIR /tmp/old/expat-2.5.0
 RUN patch -p1 < debian/patches/CVE-2024-45491.patch
 RUN apt build-dep -y expat
 RUN dpkg-buildpackage -us -uc
-## Result: a libexpat1_2.5.0-1_arm64.deb file in /old
+## Result: a libexpat1_2.5.0-1_*.deb file in /old
 
 FROM debian:bookworm-slim AS collect-debs
 

@@ -1,5 +1,6 @@
 xmlparse.c
 baseline
 post
-patches
-scan-results
+# patches
+# scan-results
+diff-expat.sh
