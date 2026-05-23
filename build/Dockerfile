@@ -43,5 +43,5 @@ FROM debian:bookworm-slim as collect-debs
 
 WORKDIR /debs
 COPY --from=libfreetype6-patch /tmp/libfreetype6_*.deb ./
-COPY --from=expat-patch /tmp/old/expat_*.deb ./
+# COPY --from=expat-patch /tmp/old/expat_*.deb ./
 COPY --from=expat-patch /tmp/old/libexpat1_*.deb ./
