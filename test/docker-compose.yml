@@ -6,6 +6,7 @@ services:
 
   nginx-patched:
     image: eladpress/echo-assignment-nginx-patched:${BRANCH_NAME:-master}
+    pull_policy: always
     networks:
       - test-net
 
