@@ -17,7 +17,7 @@ ENV NJS_VERSION=0.8.4
 ENV NGINX_VERSION=1.25.5
 
 RUN apt-get update
-
+##TODO: Make this image agnostic to architecture.
 COPY --from=builder /debs/libfreetype6_2.12.1+dfsg-5+deb12u4_arm64.deb /tmp
 COPY --from=builder /debs/libexpat1_2.5.0-1_arm64.deb /tmp
 RUN dpkg -i /tmp/libfreetype6_2.12.1+dfsg-5+deb12u4_arm64.deb || true
